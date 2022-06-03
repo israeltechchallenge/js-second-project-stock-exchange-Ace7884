@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+html,
+body,
+.main_Container,
+.listDisplay {
+  height: 100%;
+}
+
+.main_Container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../resources/sean-pollock-PhYq704ffdA-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.searchField {
+  display: inline-flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(150, 207, 230, 0.75);
+  box-shadow: rgb(115, 177, 202) 0px 5px 20px;
+}
+
+.userSearchField,
+.searchButton {
+  outline: none;
+}
+
+.userSearchField {
+  width: 40vw;
+}
+
+.searchButton,
+.userSearchField,
+.listDisplay {
+  border: none;
+  border-radius: 4px;
+}
+
+.searchButton {
+  background-color: white;
+}
+
+.userSearchField,
+.searchButton {
+  padding: 5px;
+}
+.searchButton:hover,
+.userSearchField:hover {
+  background-color: rgb(139, 181, 215);
+  transition: background-color 200ms linear;
+}
+
+.searchButton,
+.userSearchField,
+::placeholder {
+  color: rgb(150, 207, 230);
+}
+
+.searchButton:hover,
+.userSearchField:hover,
+.userSearchField:hover::placeholder {
+  color: white;
+}
+
+.listDisplay {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  margin: 5vh 0px;
+  padding: 2vh 4.5vw;
+  background-color: rgba(28, 28, 92, 0.5);
+  box-shadow: rgb(42, 50, 53) 0px 2px 20px;
+}
+
+.listItem {
+  margin-bottom: 2vh;
+  color: rgb(255, 238, 0);
+}
+
+a {
+  width: fit-content;
+  text-decoration: none;
+  border-bottom: rgb(255, 247, 0) 1px solid;
+}
+
+/*Imported Custom loader Css */
+
+.loading-bar-spinner {
+  display: none;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -20px;
+  position: absolute;
+  z-index: 19 !important;
+  animation: loading-bar-spinner 900ms linear infinite;
+}
+
+.spinner-icon {
+  width: 70px;
+  height: 70px;
+  border: solid 5px transparent;
+  border-top-color: #fded05 !important;
+  border-left-color: #fded05 !important;
+  border-radius: 50%;
+}
+
+@keyframes loading-bar-spinner {
+  0% {
+    transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
