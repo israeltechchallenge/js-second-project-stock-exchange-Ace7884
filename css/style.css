@@ -2,14 +2,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
   font-family: "Open Sans", sans-serif;
 }
 
 html,
 body,
-.main_Container,
-.listDisplay {
+.main_Container {
   height: 100%;
 }
 
@@ -27,8 +25,8 @@ body,
   display: inline-flex;
   justify-content: space-around;
   width: 100%;
+  height: 8vh;
   padding: 10px;
-  background-color: rgb(150, 207, 230, 0.75);
   box-shadow: rgb(115, 177, 202) 0px 5px 20px;
 }
 
@@ -43,40 +41,52 @@ body,
 
 .searchButton,
 .userSearchField,
-.listDisplay {
+.listDisplay,
+.homeButton,
+.imageContainer,
+.description::-webkit-scrollbar-thumb,
+#myChart {
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
-.searchButton {
+.searchButton,
+.homeButton {
   background-color: white;
 }
 
 .userSearchField,
-.searchButton {
-  padding: 5px;
+.searchButton,
+.homeButton {
+  padding: 4px 6px;
+  align-self: center;
 }
 .searchButton:hover,
-.userSearchField:hover {
+.userSearchField:hover,
+.homeButton:hover {
   background-color: rgb(139, 181, 215);
   transition: background-color 200ms linear;
 }
 
 .searchButton,
 .userSearchField,
-::placeholder {
+::placeholder,
+.homeButton {
   color: rgb(150, 207, 230);
 }
 
 .searchButton:hover,
 .userSearchField:hover,
-.userSearchField:hover::placeholder {
+.userSearchField:hover::placeholder,
+.homeButton:hover {
   color: white;
 }
 
 .listDisplay {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  height: 80%;
   width: 80vw;
   margin: 5vh 0px;
   padding: 2vh 4.5vw;
@@ -86,15 +96,27 @@ body,
 
 .listItem {
   margin-bottom: 2vh;
+}
+
+.listItem,
+.profileHeader,
+.description {
   color: rgb(255, 238, 0);
 }
 
-a {
+a,
+li {
   width: fit-content;
   text-decoration: none;
   border-bottom: rgb(255, 247, 0) 1px solid;
 }
 
+.error {
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  color: rgb(255, 251, 0);
+}
 /*Imported Custom loader Css */
 
 .loading-bar-spinner {
@@ -126,4 +148,41 @@ a {
     transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+
+.profileHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2vh;
+}
+
+.imageContainer {
+  background-color: transparent;
+  width: 6vw;
+}
+
+.description {
+  font-size: 12px;
+  margin: 2px 0px;
+  height: 10vh;
+  width: fit-content;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.description::-webkit-scrollbar {
+  width: 1vw;
+}
+
+.searchField,
+.description::-webkit-scrollbar-thumb {
+  background-color: rgb(150, 207, 230, 0.5);
+}
+.description::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+#myChart {
+  background-color: white;
 }
