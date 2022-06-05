@@ -45,7 +45,8 @@ body,
 .homeButton,
 .imageContainer,
 .description::-webkit-scrollbar-thumb,
-#myChart {
+#myChart,
+.listImage {
   border: none;
   border-radius: 5px;
 }
@@ -94,10 +95,6 @@ body,
   box-shadow: rgb(42, 50, 53) 0px 2px 20px;
 }
 
-.listItem {
-  margin-bottom: 2vh;
-}
-
 .listItem,
 .profileHeader,
 .description {
@@ -106,9 +103,7 @@ body,
 
 a,
 li {
-  width: fit-content;
   text-decoration: none;
-  border-bottom: rgb(255, 247, 0) 1px solid;
 }
 
 .error {
@@ -185,4 +180,24 @@ li {
 
 #myChart {
   background-color: white;
+}
+.listContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.itemContainer {
+  display: flex;
+  justify-content: flex-start;
+  width: fit-content;
+  align-items: center;
+  flex-direction: row;
+  border-bottom: rgb(255, 247, 0) 1px solid;
+}
+
+.listImage {
+  height: 5vh;
+  width: auto;
 }

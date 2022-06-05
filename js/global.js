@@ -2,8 +2,6 @@
 let userInquiry = document.getElementsByClassName("userSearchField")[0];
 let button = document.getElementsByClassName("searchButton")[0];
 let listDisplay = document.createElement("div");
-let urlQueryString = new URLSearchParams(window.location.search);
-let companySymbol = urlQueryString.get("symbol");
 
 //status variables
 let loading = false;
