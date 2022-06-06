@@ -1,5 +1,4 @@
 //Auxiliary functions
-
 function resetInput() {
   userInquiry.value = "";
 }
@@ -76,10 +75,72 @@ const setPriceIndicator = (element, percentageChange) => {
 
 const appendstockInformation = (stockPrice, stockIndicator, parentElement) => {
   let informationArr = [stockPrice, stockIndicator];
-  informationArr.forEach((item) => parentElement.appendChild(item));
+  informationArr.forEach((item) => {
+    parentElement.appendChild(item);
+  });
 };
 
 const listContainerAppend = (image, listItem, stockValue, parentElement) => {
   let listArr = [image, listItem, stockValue];
-  listArr.forEach((item) => parentElement.appendChild(item));
+  listArr.forEach((item) => {
+    parentElement.appendChild(item);
+  });
 };
+
+async function createMarquee() {
+  try {
+    marqueeContainer.innerHTML = "";
+    marqueeContainer.classList.add("stockMarquee_Container");
+    let marqueeText = document.createElement("span");
+    marqueeText.classList.add("marqueeDisplay");
+    let marqueeData = await getMarqueeStockData();
+    for (key in marqueeData) {
+      if (isError === true && key === "100") {
+        break;
+      } else {
+        let marqueeStockSymbol = document.createElement("p");
+        let marqueeStockPrice = document.createElement("p");
+        marqueeStockSymbol.innerText = `${marqueeData[key].symbol}`;
+        marqueeStockSymbol.style.color = "rgb(255, 247, 0)";
+        marqueeStockSymbol.style.paddingLeft = "1vw";
+        marqueeStockPrice.innerText = `$${marqueeData[key].price}`;
+        marqueeStockPrice.style.color = "rgb(43, 255, 0)";
+        appendstockInformation(
+          marqueeStockSymbol,
+          marqueeStockPrice,
+          marqueeText
+        );
+      }
+    }
+    marqueeContainer.appendChild(marqueeText);
+    document
+      .getElementsByClassName("main_Container")[0]
+      .appendChild(marqueeContainer);
+  } catch (error) {
+    isError = true;
+    createMarquee();
+    return console.log(error);
+  }
+}
+
+async function getMarqueeStockData() {
+  const url = Url.stockPriceMarque;
+  let response = await fetch(url);
+  try {
+    response = await response.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function appendMarquee() {
+  let marqueeStockSymbol = document.createElement("p");
+  let marqueeStockPrice = document.createElement("p");
+  marqueeStockSymbol.innerText = `${marqueeData[key].symbol}`;
+  marqueeStockSymbol.style.color = "rgb(255, 247, 0)";
+  marqueeStockSymbol.style.paddingLeft = "1vw";
+  marqueeStockPrice.innerText = `$${marqueeData[key].price}`;
+  marqueeStockPrice.style.color = "rgb(43, 255, 0)";
+  appendstockInformation(marqueeStockSymbol, marqueeStockPrice, marqueeText);
+}

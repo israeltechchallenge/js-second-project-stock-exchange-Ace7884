@@ -1,4 +1,5 @@
 * {
+  font-size: 1rem;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -95,9 +96,16 @@ body,
   box-shadow: rgb(42, 50, 53) 0px 2px 20px;
 }
 
+.listDisplay,
+.stockMarquee_Container {
+  background-color: rgba(28, 28, 92, 0.5);
+}
+
 .listItem,
 .profileHeader,
-.description {
+.description,
+.error,
+.marqueeDisplay {
   color: rgb(255, 238, 0);
 }
 
@@ -110,7 +118,6 @@ li {
   font-weight: bolder;
   justify-content: center;
   align-items: center;
-  color: rgb(255, 251, 0);
 }
 /*Imported Custom loader Css */
 
@@ -121,7 +128,7 @@ li {
   top: 50%;
   margin-top: -20px;
   position: absolute;
-  z-index: 19 !important;
+  z-index: 19;
   animation: loading-bar-spinner 900ms linear infinite;
 }
 
@@ -129,8 +136,8 @@ li {
   width: 70px;
   height: 70px;
   border: solid 5px transparent;
-  border-top-color: #fded05 !important;
-  border-left-color: #fded05 !important;
+  border-top-color: #fded05;
+  border-left-color: #fded05;
   border-radius: 50%;
 }
 
@@ -200,4 +207,28 @@ li {
 .listImage {
   height: 5vh;
   width: auto;
+}
+
+/* marquee test */
+.stockMarquee_Container {
+  width: 100%;
+  align-items: center;
+  overflow: hidden;
+}
+
+.marqueeDisplay {
+  display: inline-flex;
+  font-size: 10px;
+  line-height: 1.3;
+  padding: 10px 0;
+  white-space: nowrap;
+  animation: stockMarquee 3000s infinite linear;}
+
+@keyframes stockMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

@@ -6,6 +6,7 @@ userInquiry.addEventListener("click", function () {
 });
 
 //Functions
+window.onload = createMarquee();
 
 function inquiryRequest() {
   if (userInquiry.value.length > 0) {

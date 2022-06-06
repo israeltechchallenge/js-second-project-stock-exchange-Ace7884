@@ -1,19 +1,13 @@
-let urlQueryString = new URLSearchParams(window.location.search);
-let companySymbol = urlQueryString.get("symbol");
-companySymbolExtraction();
-
-function companySymbolExtraction() {
-  try {
-    recieveCompanyData(companySymbol);
-    displayProfile(companyInfo);
-  } catch (error) {
-    console.log(error);
-  }
-  toggleLoader();
-  displayPrepToggle();
-}
+window.onload = async function startPage() {
+  await createMarquee();
+  urlQueryString = new URLSearchParams(window.location.search);
+  companySymbol = urlQueryString.get("symbol");
+  recieveCompanyData(companySymbol);
+};
 
 async function recieveCompanyData(company) {
+  toggleLoader();
+  displayPrepToggle();
   const url = `${Url.profileData}/${company}`;
   let response = await fetch(url);
   try {
