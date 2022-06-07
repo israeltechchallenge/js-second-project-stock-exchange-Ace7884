@@ -222,7 +222,8 @@ li {
   line-height: 1.3;
   padding: 10px 0;
   white-space: nowrap;
-  animation: stockMarquee 3000s infinite linear;}
+  animation: stockMarquee 3000s infinite linear;
+}
 
 @keyframes stockMarquee {
   0% {

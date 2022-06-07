@@ -98,18 +98,7 @@ async function createMarquee() {
       if (isError === true && key === "100") {
         break;
       } else {
-        let marqueeStockSymbol = document.createElement("p");
-        let marqueeStockPrice = document.createElement("p");
-        marqueeStockSymbol.innerText = `${marqueeData[key].symbol}`;
-        marqueeStockSymbol.style.color = "rgb(255, 247, 0)";
-        marqueeStockSymbol.style.paddingLeft = "1vw";
-        marqueeStockPrice.innerText = `$${marqueeData[key].price}`;
-        marqueeStockPrice.style.color = "rgb(43, 255, 0)";
-        appendstockInformation(
-          marqueeStockSymbol,
-          marqueeStockPrice,
-          marqueeText
-        );
+        appendMarquee(marqueeData, marqueeText);
       }
     }
     marqueeContainer.appendChild(marqueeText);
@@ -134,13 +123,13 @@ async function getMarqueeStockData() {
   }
 }
 
-function appendMarquee() {
+function appendMarquee(data, element) {
   let marqueeStockSymbol = document.createElement("p");
   let marqueeStockPrice = document.createElement("p");
-  marqueeStockSymbol.innerText = `${marqueeData[key].symbol}`;
+  marqueeStockSymbol.innerText = `${data[key].symbol}`;
   marqueeStockSymbol.style.color = "rgb(255, 247, 0)";
   marqueeStockSymbol.style.paddingLeft = "1vw";
-  marqueeStockPrice.innerText = `$${marqueeData[key].price}`;
+  marqueeStockPrice.innerText = `$${data[key].price}`;
   marqueeStockPrice.style.color = "rgb(43, 255, 0)";
-  appendstockInformation(marqueeStockSymbol, marqueeStockPrice, marqueeText);
+  appendstockInformation(marqueeStockSymbol, marqueeStockPrice, element);
 }
