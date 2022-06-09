@@ -12,7 +12,6 @@ async function recieveCompanyData(company) {
   let response = await fetch(url);
   try {
     response = await response.json();
-    console.log(response);
     displayProfile(response.profile);
   } catch (error) {
     console.log(error);
