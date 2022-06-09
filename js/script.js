@@ -67,7 +67,7 @@ async function createList(data) {
     stockIndicator.style.marginLeft = "3vh";
     stockIndicator.innerText = `(${companyInfo.changesPercentage}%)`;
     setPriceIndicator(stockIndicator, companyInfo.changesPercentage);
-    listContainerAppend(listImage, listItem, stockIndicator, itemContainer);
+    ItemContainerAppend(listImage, listItem, stockIndicator, itemContainer);
     listContainer.appendChild(itemContainer);
   }
   listContainer.style.display = "flex";

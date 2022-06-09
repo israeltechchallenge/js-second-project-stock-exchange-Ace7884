@@ -80,8 +80,8 @@ const appendstockInformation = (stockPrice, stockIndicator, parentElement) => {
   });
 };
 
-const listContainerAppend = (image, listItem, stockValue, parentElement) => {
-  let listArr = [image, listItem, stockValue];
+const ItemContainerAppend = (element1, element2, element3, parentElement) => {
+  let listArr = [element1, element2, element3];
   listArr.forEach((item) => {
     parentElement.appendChild(item);
   });

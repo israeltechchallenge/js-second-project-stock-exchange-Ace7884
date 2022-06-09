@@ -12,6 +12,7 @@ async function recieveCompanyData(company) {
   let response = await fetch(url);
   try {
     response = await response.json();
+    console.log(response);
     displayProfile(response.profile);
   } catch (error) {
     console.log(error);
@@ -19,7 +20,7 @@ async function recieveCompanyData(company) {
 }
 
 const displayProfile = (data) => {
-  insertProfileHeader(data.image, data.companyName);
+  insertProfileHeader(data.image, data.companyName,data.industry);
   insertStockPrices(data.price, data.changesPercentage);
   insertDescription(data.description);
   insertUrl(data.website);
@@ -27,7 +28,7 @@ const displayProfile = (data) => {
   appendChart();
 };
 
-const insertProfileHeader = (imageUrl, name) => {
+const insertProfileHeader = (imageUrl, name,industry) => {
   let profileHeader = document.createElement("div");
   profileHeader.classList.add("profileHeader");
   let companyImage = document.createElement("img");
@@ -38,7 +39,10 @@ const insertProfileHeader = (imageUrl, name) => {
   let companyName = document.createElement("h3");
   companyName.style.marginLeft = "3vh";
   companyName.innerText = `${name}`;
-  profileHeader.appendChild(companyName);
+  let companyIndustry = document.createElement("h3");
+  companyIndustry.style.marginLeft ="3vh";
+  companyIndustry.innerText= `(${industry})`;
+  ItemContainerAppend(companyImage,companyName,companyIndustry,profileHeader)
   listDisplay.appendChild(profileHeader);
 };
 
