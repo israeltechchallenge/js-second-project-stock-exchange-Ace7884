@@ -93,6 +93,10 @@ body,
   margin: 5vh 0px;
   padding: 2vh 4.5vw;
   background-color: rgba(28, 28, 92, 0.5);
+}
+
+.listDisplay,
+.stockMarquee_Container {
   box-shadow: rgb(42, 50, 53) 0px 2px 20px;
 }
 
@@ -209,7 +213,7 @@ li {
   width: auto;
 }
 
-/* marquee test */
+/* marquee*/
 .stockMarquee_Container {
   width: 100%;
   align-items: center;

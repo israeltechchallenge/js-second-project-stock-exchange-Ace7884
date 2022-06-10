@@ -1,11 +1,15 @@
 window.onload = async function startPage() {
-  await createMarquee();
-  urlQueryString = new URLSearchParams(window.location.search);
-  companySymbol = urlQueryString.get("symbol");
-  recieveCompanyData(companySymbol);
+  try {
+    await createMarquee();
+    urlQueryString = new URLSearchParams(window.location.search);
+    companySymbol = urlQueryString.get("symbol");
+    recieveCompanyData(companySymbol);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-async function recieveCompanyData(company) {
+const recieveCompanyData = async (company) => {
   toggleLoader();
   displayPrepToggle();
   const url = `${Url.profileData}/${company}`;
@@ -16,10 +20,10 @@ async function recieveCompanyData(company) {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const displayProfile = (data) => {
-  insertProfileHeader(data.image, data.companyName,data.industry);
+  insertProfileHeader(data.image, data.companyName, data.industry);
   insertStockPrices(data.price, data.changesPercentage);
   insertDescription(data.description);
   insertUrl(data.website);
@@ -27,7 +31,7 @@ const displayProfile = (data) => {
   appendChart();
 };
 
-const insertProfileHeader = (imageUrl, name,industry) => {
+const insertProfileHeader = (imageUrl, name, industry) => {
   let profileHeader = document.createElement("div");
   profileHeader.classList.add("profileHeader");
   let companyImage = document.createElement("img");
@@ -39,9 +43,14 @@ const insertProfileHeader = (imageUrl, name,industry) => {
   companyName.style.marginLeft = "3vh";
   companyName.innerText = `${name}`;
   let companyIndustry = document.createElement("h3");
-  companyIndustry.style.marginLeft ="3vh";
-  companyIndustry.innerText= `(${industry})`;
-  ItemContainerAppend(companyImage,companyName,companyIndustry,profileHeader)
+  companyIndustry.style.marginLeft = "3vh";
+  companyIndustry.innerText = `(${industry})`;
+  ItemContainerAppend(
+    companyImage,
+    companyName,
+    companyIndustry,
+    profileHeader
+  );
   listDisplay.appendChild(profileHeader);
 };
 
@@ -53,7 +62,7 @@ const insertStockPrices = (price, stockChange) => {
   let stockIndicator = document.createElement("h3");
   stockIndicator.style.marginLeft = "3vh";
   setPriceIndicator(stockIndicator, stockChange);
-  appendstockInformation(stockPrice, stockIndicator, stockInformation);
+  ItemContainerAppend(stockPrice, stockIndicator, stockInformation);
   listDisplay.appendChild(stockInformation);
 };
 
@@ -75,7 +84,7 @@ const insertUrl = (url) => {
   listDisplay.appendChild(companyUrlLink);
 };
 
-async function getStockHistory() {
+const getStockHistory = async () => {
   const url = `${Url.stockHistory}/${companySymbol}?serietype=line`;
   let dateLogs = [];
   let closingPriceLogs = [];
@@ -95,7 +104,7 @@ async function getStockHistory() {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const initiateChart = (dates, dailyPriceLogs) => {
   const ctx = document.getElementById("myChart");
@@ -122,13 +131,3 @@ const initiateChart = (dates, dailyPriceLogs) => {
   };
   const myChart = new Chart(ctx, Config);
 };
-
-function appendChart() {
-  let chartContainer = document.createElement("div");
-  let chart = document.createElement("canvas");
-  chart.setAttribute("id", "myChart");
-  chart.style.position = "relative";
-  chartContainer.appendChild(chart);
-  listDisplay.appendChild(chartContainer);
-  toggleLoader();
-}

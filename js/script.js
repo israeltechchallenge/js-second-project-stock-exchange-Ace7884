@@ -12,7 +12,7 @@ function inquiryRequest() {
   if (userInquiry.value.length > 0) {
     listDisplay.innerHTML = "";
     toggleList();
-    toggleLoader();
+    // toggleLoader();
     return getNasdaqStats(userInquiry.value);
   }
   if (userInquiry.value.length > 0 && list === true) {
@@ -23,7 +23,7 @@ function inquiryRequest() {
   listDisplay.innerHTML = "";
 }
 
-async function getNasdaqStats(userQuery) {
+const getNasdaqStats = async (userQuery) => {
   const url = `${Url.searchRequest}/search?query=${userQuery}&limit=10&exchange=NASDAQ`;
   listDisplay.classList.remove("error");
   listDisplay.classList.add("listItem");
@@ -40,39 +40,43 @@ async function getNasdaqStats(userQuery) {
     listDisplay.innerText = error;
     toggleLoader();
   }
-}
+};
 
-async function createList(data) {
-  let listContainer = document.createElement("div");
-  listContainer.classList.add("listContainer");
-  listContainer.style.display = "none";
-  listDisplay.appendChild(listContainer);
-  for (element in data) {
-    let itemContainer = document.createElement("span");
-    let queryResult = data[element];
-    let companyInfo = await recieveFurtherData(queryResult.symbol);
-    itemContainer.classList.add("itemContainer");
-    let listImage = document.createElement("img");
-    listImage.setAttribute("src", `${companyInfo.image}`);
-    listImage.setAttribute("alt", "Logo");
-    listImage.classList.add("listImage");
-    let listItem = document.createElement("a");
-    listItem.classList.add("listItem");
-    listItem.setAttribute(
-      "href",
-      `./company.html?symbol=${queryResult.symbol}`
-    );
-    listItem.innerText += `${queryResult.name}    (${queryResult.symbol})`;
-    let stockIndicator = document.createElement("p");
-    stockIndicator.style.marginLeft = "3vh";
-    stockIndicator.innerText = `(${companyInfo.changesPercentage}%)`;
-    setPriceIndicator(stockIndicator, companyInfo.changesPercentage);
-    ItemContainerAppend(listImage, listItem, stockIndicator, itemContainer);
-    listContainer.appendChild(itemContainer);
+const createList = async (data) => {
+  try {
+    let listContainer = document.createElement("div");
+    listContainer.classList.add("listContainer");
+    listContainer.style.display = "none";
+    listDisplay.appendChild(listContainer);
+    for (element in data) {
+      let itemContainer = document.createElement("span");
+      let queryResult = data[element];
+      let companyInfo = await recieveFurtherData(queryResult.symbol);
+      itemContainer.classList.add("itemContainer");
+      let listImage = document.createElement("img");
+      listImage.setAttribute("src", `${companyInfo.image}`);
+      listImage.setAttribute("alt", "Logo");
+      listImage.classList.add("listImage");
+      let listItem = document.createElement("a");
+      listItem.classList.add("listItem");
+      listItem.setAttribute(
+        "href",
+        `./company.html?symbol=${queryResult.symbol}`
+      );
+      listItem.innerText += `${queryResult.name}    (${queryResult.symbol})`;
+      let stockIndicator = document.createElement("p");
+      stockIndicator.style.marginLeft = "3vh";
+      stockIndicator.innerText = `(${companyInfo.changesPercentage}%)`;
+      setPriceIndicator(stockIndicator, companyInfo.changesPercentage);
+      ItemContainerAppend(listImage, listItem, stockIndicator, itemContainer);
+      listContainer.appendChild(itemContainer);
+    }
+    listContainer.style.display = "flex";
+    toggleLoader();
+  } catch (error) {
+    console.log(error);
   }
-  listContainer.style.display = "flex";
-  toggleLoader();
-}
+};
 
 async function recieveFurtherData(CompanyKey) {
   const url = `${Url.profileData}/${CompanyKey}`;

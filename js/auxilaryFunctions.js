@@ -1,9 +1,9 @@
 //Auxiliary functions
-function resetInput() {
+const resetInput = () => {
   userInquiry.value = "";
-}
+};
 
-function toggleList() {
+const toggleList = () => {
   if (!list && userInquiry.value.length > 0) {
     listDisplay.innerHTML = "";
     displayPrepToggle();
@@ -14,9 +14,9 @@ function toggleList() {
   }
   displayPrepToggle();
   return (list = false);
-}
+};
 
-function toggleLoader() {
+const toggleLoader = () => {
   if (!loading) {
     document.getElementsByClassName("loading-bar-spinner")[0].style.display =
       "block";
@@ -25,9 +25,9 @@ function toggleLoader() {
   document.getElementsByClassName("loading-bar-spinner")[0].style.display =
     "none";
   return (loading = false);
-}
+};
 
-function displayPrepToggle() {
+const displayPrepToggle = () => {
   if (!displayPage) {
     document
       .getElementsByClassName("main_Container")[0]
@@ -38,9 +38,9 @@ function displayPrepToggle() {
   listDisplay.classList.remove("listDisplay");
   document.getElementsByClassName("main_Container")[0].removeChild(listDisplay);
   return (displayPage = false);
-}
+};
 
-function appendChart() {
+const appendChart = () => {
   let chartContainer = document.createElement("div");
   let chart = document.createElement("canvas");
   chart.setAttribute("id", "myChart");
@@ -48,7 +48,7 @@ function appendChart() {
   chartContainer.appendChild(chart);
   listDisplay.appendChild(chartContainer);
   toggleLoader();
-}
+};
 
 const enableEnterKey = (event) => {
   if (event.key === "Enter") {
@@ -73,21 +73,15 @@ const setPriceIndicator = (element, percentageChange) => {
   return (element.style.color = "red");
 };
 
-const appendstockInformation = (stockPrice, stockIndicator, parentElement) => {
-  let informationArr = [stockPrice, stockIndicator];
-  informationArr.forEach((item) => {
-    parentElement.appendChild(item);
-  });
-};
-
-const ItemContainerAppend = (element1, element2, element3, parentElement) => {
-  let listArr = [element1, element2, element3];
+const ItemContainerAppend = (...arg) => {
+  let listArr = [...arg];
+  let parentElement = listArr.pop();
   listArr.forEach((item) => {
     parentElement.appendChild(item);
   });
 };
 
-async function createMarquee() {
+const createMarquee = async () => {
   try {
     marqueeContainer.innerHTML = "";
     marqueeContainer.classList.add("stockMarquee_Container");
@@ -110,9 +104,9 @@ async function createMarquee() {
     createMarquee();
     return console.log(error);
   }
-}
+};
 
-async function getMarqueeStockData() {
+const getMarqueeStockData = async () => {
   const url = Url.stockPriceMarque;
   let response = await fetch(url);
   try {
@@ -121,9 +115,9 @@ async function getMarqueeStockData() {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-function appendMarquee(data, element) {
+const appendMarquee = (data, element) => {
   let marqueeStockSymbol = document.createElement("p");
   let marqueeStockPrice = document.createElement("p");
   marqueeStockSymbol.innerText = `${data[key].symbol}`;
@@ -131,5 +125,5 @@ function appendMarquee(data, element) {
   marqueeStockSymbol.style.paddingLeft = "1vw";
   marqueeStockPrice.innerText = `$${data[key].price}`;
   marqueeStockPrice.style.color = "rgb(43, 255, 0)";
-  appendstockInformation(marqueeStockSymbol, marqueeStockPrice, element);
-}
+  ItemContainerAppend(marqueeStockSymbol, marqueeStockPrice, element);
+};
