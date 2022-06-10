@@ -12,7 +12,7 @@ function inquiryRequest() {
   if (userInquiry.value.length > 0) {
     listDisplay.innerHTML = "";
     toggleList();
-    // toggleLoader();
+    toggleLoader();
     return getNasdaqStats(userInquiry.value);
   }
   if (userInquiry.value.length > 0 && list === true) {
