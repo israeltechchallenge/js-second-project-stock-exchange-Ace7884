@@ -3,13 +3,16 @@ window.onload = async function startPage() {
     await createMarquee();
     urlQueryString = new URLSearchParams(window.location.search);
     companySymbol = urlQueryString.get("symbol");
-    recieveCompanyData(companySymbol);
+    receiveCompanyData(companySymbol);
   } catch (error) {
-    console.log(error);
+    popToastError(
+      "Error has Occurred in Data retrieval please reload and try different inquiry"
+    );
+    console.log(`Error in data packet from server please check:${error}`);
   }
 };
 
-const recieveCompanyData = async (company) => {
+const receiveCompanyData = async (company) => {
   toggleLoader();
   displayPrepToggle();
   const url = `${Url.profileData}/${company}`;
@@ -18,7 +21,7 @@ const recieveCompanyData = async (company) => {
     response = await response.json();
     displayProfile(response.profile);
   } catch (error) {
-    console.log(error);
+    console.log(`Error in data packet from server please check:${error}`);
   }
 };
 
@@ -102,6 +105,7 @@ const getStockHistory = async () => {
     }
     initiateChart(dateLogs, closingPriceLogs);
   } catch (error) {
+    popToastError(error);
     console.log(error);
   }
 };

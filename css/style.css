@@ -47,7 +47,8 @@ body,
 .imageContainer,
 .description::-webkit-scrollbar-thumb,
 #myChart,
-.listImage {
+.listImage,
+.errorToast {
   border: none;
   border-radius: 5px;
 }
@@ -235,5 +236,47 @@ li {
   }
   100% {
     transform: translateX(-50%);
+  }
+}
+
+.errorToast {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 3vh;
+  width: fit-content;
+  padding: 0vh 3vw;
+  height: 10vh;
+  color: white;
+  background-color: rgba(21, 15, 15, 0.7);
+  z-index: 15;
+}
+
+.errorToast.show {
+  visibility: visible;
+  animation: fadeIn 1s, fadeOut 1s 8s;
+}
+
+@keyframes fadeIn {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
   }
 }

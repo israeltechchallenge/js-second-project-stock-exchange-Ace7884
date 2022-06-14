@@ -1,7 +1,7 @@
 //Event listeners
 button.addEventListener("click", inquiryRequest);
 document.addEventListener("keypress", enableEnterKey);
-userInquiry.addEventListener("click", function () {
+userInquiry.addEventListener("click", () => {
   resetInput();
 });
 
@@ -51,7 +51,10 @@ const createList = async (data) => {
     for (element in data) {
       let itemContainer = document.createElement("span");
       let queryResult = data[element];
-      let companyInfo = await recieveFurtherData(queryResult.symbol);
+      let companyInfo = await receiveFurtherData(queryResult.symbol);
+      if (companyInfo === undefined) {
+        continue;
+      }
       itemContainer.classList.add("itemContainer");
       let listImage = document.createElement("img");
       listImage.setAttribute("src", `${companyInfo.image}`);
@@ -74,17 +77,20 @@ const createList = async (data) => {
     listContainer.style.display = "flex";
     toggleLoader();
   } catch (error) {
-    console.log(error);
+    popToastError(
+      "Error has Occurred in Data retrieval please reload and try different inquiry"
+    );
+    console.log(`Error in data packet from server please check:${error}`);
   }
 };
 
-async function recieveFurtherData(CompanyKey) {
+async function receiveFurtherData(CompanyKey) {
   const url = `${Url.profileData}/${CompanyKey}`;
   let response = await fetch(url);
   try {
     response = await response.json();
     return response.profile;
   } catch (error) {
-    console.log(error);
+    console.log(`Error in data packet from server please check:${error}`);
   }
 }

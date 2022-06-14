@@ -127,3 +127,12 @@ const appendMarquee = (data, element) => {
   marqueeStockPrice.style.color = "rgb(43, 255, 0)";
   ItemContainerAppend(marqueeStockSymbol, marqueeStockPrice, element);
 };
+
+const popToastError = (text) => {
+  let errorToast = document.getElementsByClassName("errorToast")[0];
+  errorToast.classList.add("show");
+  errorToast.innerText = text;
+  setTimeout(() => {
+    errorToast.className = errorToast.className.replace("show", "");
+  }, 9000);
+};
