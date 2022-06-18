@@ -1,6 +1,7 @@
 window.onload = async function startPage() {
   try {
-    await createMarquee();
+    const marquee = new Marquee(marqueeContainer);
+    await marquee.createMarquee();
     urlQueryString = new URLSearchParams(window.location.search);
     companySymbol = urlQueryString.get("symbol");
     receiveCompanyData(companySymbol);
@@ -8,7 +9,7 @@ window.onload = async function startPage() {
     popToastError(
       "Error has Occurred in Data retrieval please reload and try different inquiry"
     );
-    console.log(`Error in data packet from server please check:${error}`);
+    console.log(`Error in page rendering please check:${error}`);
   }
 };
 
@@ -21,7 +22,7 @@ const receiveCompanyData = async (company) => {
     response = await response.json();
     displayProfile(response.profile);
   } catch (error) {
-    console.log(`Error in data packet from server please check:${error}`);
+    console.log(`Error in data reception from server please check:${error}`);
   }
 };
 

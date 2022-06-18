@@ -1,5 +1,7 @@
 //Auxiliary functions
 const resetInput = () => {
+  autoSearchDisplay.innerText = "";
+  autoSearchDisplay.classList.remove("autoSearchQuery");
   userInquiry.value = "";
 };
 
@@ -10,6 +12,7 @@ const toggleList = () => {
     return (list = true);
   }
   if (list && userInquiry.value.length > 0) {
+    listDisplay.innerHTML = "";
     return (list = true);
   }
   displayPrepToggle();
@@ -56,6 +59,13 @@ const enableEnterKey = (event) => {
   }
 };
 
+const autoSearchClear = (event) => {
+  if (event.key === "Backspace" && userInquiry.value.length == 0) {
+    autoSearchDisplay.innerText = "";
+    autoSearchDisplay.classList.remove("autoSearchQuery");
+  }
+};
+
 const setPriceIndicator = (element, percentageChange) => {
   if (percentageChange.charAt(0) === "-") {
     percentageChange = percentageChange.slice(0, 6);
@@ -79,53 +89,6 @@ const ItemContainerAppend = (...arg) => {
   listArr.forEach((item) => {
     parentElement.appendChild(item);
   });
-};
-
-const createMarquee = async () => {
-  try {
-    marqueeContainer.innerHTML = "";
-    marqueeContainer.classList.add("stockMarquee_Container");
-    let marqueeText = document.createElement("span");
-    marqueeText.classList.add("marqueeDisplay");
-    let marqueeData = await getMarqueeStockData();
-    for (key in marqueeData) {
-      if (isError === true && key === "100") {
-        break;
-      } else {
-        appendMarquee(marqueeData, marqueeText);
-      }
-    }
-    marqueeContainer.appendChild(marqueeText);
-    document
-      .getElementsByClassName("main_Container")[0]
-      .appendChild(marqueeContainer);
-  } catch (error) {
-    isError = true;
-    createMarquee();
-    return console.log(error);
-  }
-};
-
-const getMarqueeStockData = async () => {
-  const url = Url.stockPriceMarque;
-  let response = await fetch(url);
-  try {
-    response = await response.json();
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const appendMarquee = (data, element) => {
-  let marqueeStockSymbol = document.createElement("p");
-  let marqueeStockPrice = document.createElement("p");
-  marqueeStockSymbol.innerText = `${data[key].symbol}`;
-  marqueeStockSymbol.style.color = "rgb(255, 247, 0)";
-  marqueeStockSymbol.style.paddingLeft = "1vw";
-  marqueeStockPrice.innerText = `$${data[key].price}`;
-  marqueeStockPrice.style.color = "rgb(43, 255, 0)";
-  ItemContainerAppend(marqueeStockSymbol, marqueeStockPrice, element);
 };
 
 const popToastError = (text) => {

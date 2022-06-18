@@ -5,6 +5,8 @@ let listDisplay = document.createElement("div");
 let marqueeContainer = document.createElement("div");
 let urlQueryString = "";
 let companySymbol = "";
+let autoSearchDisplay = document.getElementsByClassName("autoSearchQuery")[0];
+let timer;
 //status variables
 let loading = false;
 let list = false;
@@ -16,7 +18,5 @@ const Url = {
   profileData:
     "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile",
   stockHistory:
-    "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/",
-  stockPriceMarque:
-    "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nasdaq",
+    "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/"
 };

@@ -11,19 +11,24 @@
       type="image/x-icon"
       href="./resources/icons8-stock-market-16.png"
     />
-    <script src="./js/global.js" defer></script>
-    <script src="./js/auxilaryFunctions.js" defer></script>
-    <script src="./js/script.js" defer></script>
   </head>
   <body>
     <div class="main_Container">
+      <h2>Search Nasdaq Stock</h2>
       <div class="searchField">
-        <input class="userSearchField" placeholder="Search for Data" />
+        <div class="searchInputContainer">
+          <input class="userSearchField" placeholder="Search for Data" />
+          <div class="autoSearchQuery"></div>
+        </div>
         <button class="searchButton">Submit</button>
       </div>
       <!-- Imported Spinner html -->
       <div class="loading-bar-spinner"><div class="spinner-icon"></div></div>
       <div class="errorToast"></div>
     </div>
+    <script src="./js/marquee.js"></script>
+    <script src="./js/global.js"></script>
+    <script src="./js/auxilaryFunctions.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>

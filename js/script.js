@@ -4,13 +4,20 @@ document.addEventListener("keypress", enableEnterKey);
 userInquiry.addEventListener("click", () => {
   resetInput();
 });
+userInquiry.addEventListener("keyup", autoSearch);
+userInquiry.addEventListener("keypress", autoSearchClear);
 
 //Functions
-window.onload = createMarquee();
+window.onload = function reset() {
+  const marquee = new Marquee(marqueeContainer);
+  marquee.createMarquee();
+  listDisplay.innerHTML = "";
+  autoSearchDisplay.innerText = "";
+  autoSearchDisplay.classList.remove("autoSearchQuery");
+};
 
 function inquiryRequest() {
   if (userInquiry.value.length > 0) {
-    listDisplay.innerHTML = "";
     toggleList();
     toggleLoader();
     return getNasdaqStats(userInquiry.value);
@@ -93,4 +100,13 @@ async function receiveFurtherData(CompanyKey) {
   } catch (error) {
     console.log(`Error in data packet from server please check:${error}`);
   }
+}
+
+function autoSearch(e) {
+  clearTimeout(timer);
+  autoSearchDisplay.classList.add("autoSearchQuery");
+  autoSearchDisplay.innerText = `${e.target.value} - Auto Search`;
+  timer = setTimeout(() => {
+    inquiryRequest();
+  }, 800);
 }

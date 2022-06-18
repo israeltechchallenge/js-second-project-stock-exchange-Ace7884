@@ -12,6 +12,26 @@ body,
   height: 100%;
 }
 
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7vh;
+  width: 100%;
+  color: white;
+  font-size: 25px;
+}
+
+a,
+li {
+  text-decoration: none;
+}
+
+.error {
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+}
 .main_Container {
   display: flex;
   flex-direction: column;
@@ -28,7 +48,7 @@ body,
   width: 100%;
   height: 8vh;
   padding: 10px;
-  box-shadow: rgb(115, 177, 202) 0px 5px 20px;
+  box-shadow: rgb(115, 177, 202) 0px 8px 20px -8px;
 }
 
 .userSearchField,
@@ -45,10 +65,12 @@ body,
 .listDisplay,
 .homeButton,
 .imageContainer,
+.listDisplay::-webkit-scrollbar-thumb,
 .description::-webkit-scrollbar-thumb,
 #myChart,
 .listImage,
-.errorToast {
+.errorToast,
+.autoSearchQuery {
   border: none;
   border-radius: 5px;
 }
@@ -60,7 +82,8 @@ body,
 
 .userSearchField,
 .searchButton,
-.homeButton {
+.homeButton,
+.autoSearchQuery {
   padding: 4px 6px;
   align-self: center;
 }
@@ -92,13 +115,13 @@ body,
   height: 80%;
   width: 80vw;
   margin: 5vh 0px;
-  padding: 2vh 4.5vw;
+  padding: 3vh 4.5vw;
   background-color: rgba(28, 28, 92, 0.5);
 }
 
 .listDisplay,
 .stockMarquee_Container {
-  box-shadow: rgb(42, 50, 53) 0px 2px 20px;
+  box-shadow: rgb(42, 50, 53) 0px 8px 20px -8px;
 }
 
 .listDisplay,
@@ -111,19 +134,10 @@ body,
 .description,
 .error,
 .marqueeDisplay {
+  margin-left: 1vw;
   color: rgb(255, 238, 0);
 }
 
-a,
-li {
-  text-decoration: none;
-}
-
-.error {
-  font-weight: bolder;
-  justify-content: center;
-  align-items: center;
-}
 /*Imported Custom loader Css */
 
 .loading-bar-spinner {
@@ -174,18 +188,26 @@ li {
   margin: 2px 0px;
   height: 10vh;
   width: fit-content;
+}
+
+.listDisplay,
+.description {
   overflow: scroll;
   overflow-x: hidden;
 }
 
+.listDisplay::-webkit-scrollbar,
 .description::-webkit-scrollbar {
   width: 1vw;
 }
 
+h2,
 .searchField,
+.listDisplay::-webkit-scrollbar-thumb,
 .description::-webkit-scrollbar-thumb {
   background-color: rgb(150, 207, 230, 0.5);
 }
+.listDisplay::-webkit-scrollbar-track-piece,
 .description::-webkit-scrollbar-track-piece {
   background: transparent;
 }
@@ -251,7 +273,7 @@ li {
   height: 10vh;
   color: white;
   background-color: rgba(21, 15, 15, 0.7);
-  z-index: 15;
+  z-index: 5;
 }
 
 .errorToast.show {
@@ -279,4 +301,18 @@ li {
     bottom: 0;
     opacity: 0;
   }
+}
+
+.searchInputContainer {
+  display: flex;
+  flex-direction: column;
+}
+.autoSearchQuery {
+  display: inline-flex;
+  justify-content: flex-start;
+  z-index: 15;
+  background-color: rgb(203, 209, 209, 0.75);
+  position: relative;
+  top: 1vh;
+  width: 40vw;
 }
