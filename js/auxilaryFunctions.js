@@ -1,69 +1,60 @@
 //Auxiliary functions
-const resetInput = () => {
-  autoSearchDisplay.innerText = "";
-  autoSearchDisplay.classList.remove("autoSearchQuery");
-  userInquiry.value = "";
-};
+// const enableEnterKey = (event) => {
+//   debugger;
+//   console.log("click");
+//   if (event.key === "Enter") {
+//     displayResults();
+//   }
+// };
 
 const toggleList = () => {
-  if (!list && userInquiry.value.length > 0) {
-    listDisplay.innerHTML = "";
-    displayPrepToggle();
-    return (list = true);
+  CONFIG.listDisplay.classList.add("listItem");
+  if (!CONFIG.displayPageState) {
+    CONFIG.listDisplay.classList.add("listDisplay");
+    CONFIG.mainContainer.appendChild(CONFIG.listDisplay);
+    return (CONFIG.displayPageState = true);
   }
-  if (list && userInquiry.value.length > 0) {
-    listDisplay.innerHTML = "";
-    return (list = true);
+  if (CONFIG.displayPageState && !isError) {
+    CONFIG.listDisplay.innerHTML = "";
+    return (CONFIG.displayPageState = true);
   }
-  displayPrepToggle();
-  return (list = false);
+  CONFIG.mainContainer = document.getElementsByClassName("main_Container")[0];
+  CONFIG.mainContainer.removeChild(CONFIG.listDisplay);
+  CONFIG.listDisplay.classList.remove("listDisplay");
+  CONFIG.loadingState = true;
+  return (CONFIG.displayPageState = false);
 };
 
 const toggleLoader = () => {
-  if (!loading) {
-    document.getElementsByClassName("loading-bar-spinner")[0].style.display =
-      "block";
-    return (loading = true);
+  if (!CONFIG.loadingState) {
+    let loaderContainer = document.createElement("div");
+    let loaderSpinnerContainer = document.createElement("div");
+    let loaderIcon = document.createElement("div");
+    loaderContainer.classList.add("loader-container");
+    loaderContainer.style.visibility = "visible";
+    loaderContainer.style.position = "relative";
+    CONFIG.listDisplay.style.visibility = "hidden";
+    CONFIG.listDisplay.style.position = "absolute";
+    loaderSpinnerContainer.classList.add("loading-bar-spinner");
+    loaderIcon.classList.add("spinner-icon");
+    loaderSpinnerContainer.appendChild(loaderIcon);
+    loaderContainer.appendChild(loaderSpinnerContainer);
+    CONFIG.mainContainer.appendChild(loaderContainer);
+    return (CONFIG.loadingState = true);
   }
-  document.getElementsByClassName("loading-bar-spinner")[0].style.display =
-    "none";
-  return (loading = false);
-};
-
-const displayPrepToggle = () => {
-  if (!displayPage) {
-    document
-      .getElementsByClassName("main_Container")[0]
-      .appendChild(listDisplay);
-    listDisplay.classList.add("listDisplay");
-    return (displayPage = true);
-  }
-  listDisplay.classList.remove("listDisplay");
-  document.getElementsByClassName("main_Container")[0].removeChild(listDisplay);
-  return (displayPage = false);
-};
-
-const appendChart = () => {
-  let chartContainer = document.createElement("div");
-  let chart = document.createElement("canvas");
-  chart.setAttribute("id", "myChart");
-  chart.style.position = "relative";
-  chartContainer.appendChild(chart);
-  listDisplay.appendChild(chartContainer);
-  toggleLoader();
-};
-
-const enableEnterKey = (event) => {
-  if (event.key === "Enter") {
-    inquiryRequest();
-  }
-};
-
-const autoSearchClear = (event) => {
-  if (event.key === "Backspace" && userInquiry.value.length == 0) {
-    autoSearchDisplay.innerText = "";
-    autoSearchDisplay.classList.remove("autoSearchQuery");
-  }
+  CONFIG.listDisplay.style.visibility = "visible";
+  CONFIG.listDisplay.style.position = "relative";
+  let loaderContainer = document.getElementsByClassName("loader-container")[0];
+  let loaderSpinnerContainer = document.getElementsByClassName(
+    "loading-bar-spinner"
+  )[0];
+  let loaderIcon = document.getElementsByClassName("spinner-icon")[0];
+  loaderContainer.style.position = "absolute";
+  loaderContainer.style.visibility = "hidden";
+  CONFIG.mainContainer.removeChild(loaderContainer);
+  loaderContainer.removeChild(loaderSpinnerContainer);
+  loaderSpinnerContainer.removeChild(loaderIcon);
+  return (CONFIG.loadingState = false);
 };
 
 const setPriceIndicator = (element, percentageChange) => {
@@ -89,13 +80,4 @@ const ItemContainerAppend = (...arg) => {
   listArr.forEach((item) => {
     parentElement.appendChild(item);
   });
-};
-
-const popToastError = (text) => {
-  let errorToast = document.getElementsByClassName("errorToast")[0];
-  errorToast.classList.add("show");
-  errorToast.innerText = text;
-  setTimeout(() => {
-    errorToast.className = errorToast.className.replace("show", "");
-  }, 9000);
 };

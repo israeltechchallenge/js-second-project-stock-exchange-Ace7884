@@ -1,39 +1,47 @@
-window.onload = async function startPage() {
+let dateLogs =[];
+let closingPriceLogs=[];
+
+window.onload = async function startPage() {  
   try {
-    const marquee = new Marquee(marqueeContainer);
-    await marquee.createMarquee();
-    urlQueryString = new URLSearchParams(window.location.search);
-    companySymbol = urlQueryString.get("symbol");
-    receiveCompanyData(companySymbol);
+    const marquee = new Marquee(CONFIG.marqueeContainer);
+    await marquee.load();
+    CONFIG.urlQueryString = new URLSearchParams(window.location.search);
+    CONFIG.companySymbol = CONFIG.urlQueryString.get("symbol");
+    displayProfile(CONFIG.companySymbol);
   } catch (error) {
-    popToastError(
+    CONFIG.popToastError(
       "Error has Occurred in Data retrieval please reload and try different inquiry"
     );
     console.log(`Error in page rendering please check:${error}`);
   }
 };
 
-const receiveCompanyData = async (company) => {
+const displayProfile = async (data) => {
+  let profileData = await receiveCompanyData(data); 
   toggleLoader();
-  displayPrepToggle();
-  const url = `${Url.profileData}/${company}`;
+  toggleList();
+  insertProfileHeader(profileData.image, profileData.companyName, profileData.industry);
+  insertStockPrices(profileData.price, profileData.changesPercentage);
+  insertDescription(profileData.description);
+  insertUrl(profileData.website);
+  await getStockHistory();
+  appendChart();
+  await initiateChart(dateLogs,closingPriceLogs);
+  toggleLoader();
+};
+
+const receiveCompanyData = async (company) => {
+  const url = `${CONFIG.profileDataUrl}/${company}`;
   let response = await fetch(url);
   try {
     response = await response.json();
-    displayProfile(response.profile);
+    return response.profile;
   } catch (error) {
     console.log(`Error in data reception from server please check:${error}`);
   }
 };
 
-const displayProfile = (data) => {
-  insertProfileHeader(data.image, data.companyName, data.industry);
-  insertStockPrices(data.price, data.changesPercentage);
-  insertDescription(data.description);
-  insertUrl(data.website);
-  getStockHistory();
-  appendChart();
-};
+
 
 const insertProfileHeader = (imageUrl, name, industry) => {
   let profileHeader = document.createElement("div");
@@ -55,7 +63,7 @@ const insertProfileHeader = (imageUrl, name, industry) => {
     companyIndustry,
     profileHeader
   );
-  listDisplay.appendChild(profileHeader);
+  CONFIG.listDisplay.appendChild(profileHeader);
 };
 
 const insertStockPrices = (price, stockChange) => {
@@ -67,14 +75,14 @@ const insertStockPrices = (price, stockChange) => {
   stockIndicator.style.marginLeft = "3vh";
   setPriceIndicator(stockIndicator, stockChange);
   ItemContainerAppend(stockPrice, stockIndicator, stockInformation);
-  listDisplay.appendChild(stockInformation);
+  CONFIG.listDisplay.appendChild(stockInformation);
 };
 
 const insertDescription = (description) => {
   let companyDescription = document.createElement("div");
   companyDescription.classList.add("description");
   companyDescription.innerText = `${description}`;
-  listDisplay.appendChild(companyDescription);
+  CONFIG.listDisplay.appendChild(companyDescription);
 };
 
 const insertUrl = (url) => {
@@ -85,30 +93,37 @@ const insertUrl = (url) => {
   companyUrlLink.setAttribute("href", `${url}`);
   companyUrlLink.setAttribute("target", "_blank");
   companyUrlLink.innerText = `${url}`;
-  listDisplay.appendChild(companyUrlLink);
+  CONFIG.listDisplay.appendChild(companyUrlLink);
 };
 
 const getStockHistory = async () => {
-  const url = `${Url.stockHistory}/${companySymbol}?serietype=line`;
-  let dateLogs = [];
-  let closingPriceLogs = [];
+  const url = `${CONFIG.stockHistoryUrl}/${CONFIG.companySymbol}?serietype=line`;
+  
   try {
     let response = await fetch(url);
     response = await response.json();
     let data = response.historical;
-
-    for (key in data) {
-      if (key === "18") {
+    for (let key in data) {
+       if( key === "18") {
         break;
       }
       dateLogs.push(data[key].date);
       closingPriceLogs.push(data[key].close);
     }
-    initiateChart(dateLogs, closingPriceLogs);
+     return;
   } catch (error) {
-    popToastError(error);
     console.log(error);
+    CONFIG.popToastError(error);
   }
+};
+
+const appendChart = () => {
+  let chartContainer = document.createElement("div");
+  let chart = document.createElement("canvas");
+  chartContainer.style.marginTop='1vh';
+  chart.setAttribute("id", "myChart");
+  chartContainer.appendChild(chart);
+  CONFIG.listDisplay.appendChild(chartContainer);
 };
 
 const initiateChart = (dates, dailyPriceLogs) => {

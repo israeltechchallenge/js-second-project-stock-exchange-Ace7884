@@ -12,11 +12,24 @@ body,
   height: 100%;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  background-image: url("../resources/sean-pollock-PhYq704ffdA-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
 h2 {
+  padding-top: 10vh;
+  height: 14vh;
+  z-index: 10;
+}
+
+h2,
+.header {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 7vh;
   width: 100%;
   color: white;
   font-size: 25px;
@@ -27,33 +40,37 @@ li {
   text-decoration: none;
 }
 
-.error {
-  font-weight: bolder;
-  justify-content: center;
-  align-items: center;
-}
 .main_Container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url("../resources/sean-pollock-PhYq704ffdA-unsplash.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
-
 .searchField {
-  display: inline-flex;
-  justify-content: space-around;
+  align-items: center;
   width: 100%;
   height: 8vh;
-  padding: 10px;
+  padding: 1vh 26vw;
+}
+
+.searchField,
+.header {
   box-shadow: rgb(115, 177, 202) 0px 8px 20px -8px;
+}
+
+.searchField,
+.header {
+  display: inline-flex;
+  justify-content: space-around;
 }
 
 .userSearchField,
 .searchButton {
   outline: none;
+}
+
+.header {
+  height: 8vh;
+  padding-top: 0.5vh;
 }
 
 .userSearchField {
@@ -62,6 +79,7 @@ li {
 
 .searchButton,
 .userSearchField,
+.loader-container,
 .listDisplay,
 .homeButton,
 .imageContainer,
@@ -87,10 +105,13 @@ li {
   padding: 4px 6px;
   align-self: center;
 }
+
 .searchButton:hover,
 .userSearchField:hover,
-.homeButton:hover {
-  background-color: rgb(139, 181, 215);
+.homeButton:hover,
+.autoSearchQuery li:hover {
+  cursor: pointer;
+  background-color: rgb(139, 181, 215, 0.5);
   transition: background-color 200ms linear;
 }
 
@@ -104,50 +125,41 @@ li {
 .searchButton:hover,
 .userSearchField:hover,
 .userSearchField:hover::placeholder,
-.homeButton:hover {
+.homeButton:hover,
+.autoSearchQuery li:hover {
   color: white;
 }
 
+.loader-container,
 .listDisplay {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 80%;
+  top: 3vh;
+  height: 67vh;
   width: 80vw;
   margin: 5vh 0px;
   padding: 3vh 4.5vw;
   background-color: rgba(28, 28, 92, 0.5);
 }
-
-.listDisplay,
-.stockMarquee_Container {
-  box-shadow: rgb(42, 50, 53) 0px 8px 20px -8px;
+.listDisplay {
+  position: relative;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.listDisplay,
-.stockMarquee_Container {
-  background-color: rgba(28, 28, 92, 0.5);
+.loader-container {
+  left: 3.5px;
+  visibility: hidden;
+  position: absolute;
+  justify-content: center;
 }
-
-.listItem,
-.profileHeader,
-.description,
-.error,
-.marqueeDisplay {
-  margin-left: 1vw;
-  color: rgb(255, 238, 0);
-}
-
-/*Imported Custom loader Css */
 
 .loading-bar-spinner {
-  display: none;
-  left: 50%;
-  margin-left: -20px;
   top: 50%;
+  left: 50%;
   margin-top: -20px;
+  margin-left: -20px;
   position: absolute;
-  z-index: 19;
+  z-index: 16;
   animation: loading-bar-spinner 900ms linear infinite;
 }
 
@@ -171,11 +183,28 @@ li {
   }
 }
 
+.listDisplay,
+.stockMarquee_Container {
+  box-shadow: rgb(42, 50, 53) 0px 8px 20px -8px;
+}
+
+.listDisplay,
+.stockMarquee_Container {
+  background-color: rgba(28, 28, 92, 0.5);
+}
+
+.listItem,
+.profileHeader,
+.description,
+.error,
+.marqueeDisplay {
+  color: rgb(255, 238, 0);
+}
+
 .profileHeader {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 2vh;
 }
 
 .imageContainer {
@@ -202,6 +231,7 @@ li {
 }
 
 h2,
+.header,
 .searchField,
 .listDisplay::-webkit-scrollbar-thumb,
 .description::-webkit-scrollbar-thumb {
@@ -213,6 +243,7 @@ h2,
 }
 
 #myChart {
+  position: relative;
   background-color: white;
 }
 .listContainer {
@@ -238,9 +269,11 @@ h2,
 
 /* marquee*/
 .stockMarquee_Container {
+  position: absolute;
   width: 100%;
   align-items: center;
   overflow: hidden;
+  z-index: 16;
 }
 
 .marqueeDisplay {
@@ -273,7 +306,7 @@ h2,
   height: 10vh;
   color: white;
   background-color: rgba(21, 15, 15, 0.7);
-  z-index: 5;
+  z-index: 20;
 }
 
 .errorToast.show {
@@ -308,11 +341,50 @@ h2,
   flex-direction: column;
 }
 .autoSearchQuery {
-  display: inline-flex;
+  visibility: hidden;
+  color: black;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   z-index: 15;
   background-color: rgb(203, 209, 209, 0.75);
-  position: relative;
-  top: 1vh;
+  position: absolute;
+  top: 20vh;
   width: 40vw;
+}
+
+.autoSearchQuery li {
+  color: black;
+  list-style: none;
+}
+
+@media (max-width: 1262px) {
+  .searchField {
+    padding: 1vh 25vw;
+  }
+}
+@media (max-width: 877px) {
+  .searchField {
+    padding: 1vh 24vw;
+  }
+}
+@media (max-width: 705px) {
+  .searchField {
+    padding: 1vh 23vw;
+  }
+}
+@media (max-width: 592px) {
+  .searchField {
+    padding: 1vh 22vw;
+  }
+}
+@media (max-width: 488px) {
+  .searchField {
+    padding: 1vh 20vw;
+  }
+}
+@media (max-width: 416px) {
+  .searchField {
+    padding: 1vh 19vw;
+  }
 }
