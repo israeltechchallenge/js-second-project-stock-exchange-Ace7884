@@ -33,7 +33,7 @@ class Marquee {
       return response;
     } catch (error) {
       console.log(`Error in data rendering from server please check:${error}`);
-      CONFIG.popToastError(
+      popToastError(
         "Error occurred while loading stock updates please refresh or try again later"
       );
     }

@@ -1,9 +1,18 @@
 window.onload = async function reset() {
   //Functions
-  const marquee = new Marquee(CONFIG.marqueeContainer);
-  await marquee.load();
   CONFIG.listDisplay.innerHTML = "";
   autoSearchDisplay.innerText = "";
+  const marquee = new Marquee(CONFIG.marqueeContainer);
+  await marquee.load();
+  CONFIG.urlQueryString = new URLSearchParams(window.location.search);
+  CONFIG.urlQueryString = CONFIG.urlQueryString.toString();
+  if (CONFIG.urlQueryString.length > 0) {
+    CONFIG.userInquiry.value = CONFIG.urlQueryString.slice(
+      6,
+      CONFIG.urlQueryString.length
+    );
+    displayResults();
+  }
 };
 
 const displayResults = async () => {
@@ -21,13 +30,13 @@ const displayResults = async () => {
       isError = true;
       toggleList();
       toggleLoader();
-      return CONFIG.popToastError("No match found please try another Query");
+      return popToastError("No match found please try another Query");
     }
     await createList(data);
     return toggleLoader();
   } catch (error) {
     console.log(`No Object Received from server ${error}`);
-    CONFIG.popToastError(error);
+    popToastError(error);
     isError = true;
     toggleList();
     return toggleLoader();
@@ -45,7 +54,7 @@ const getNasdaqStats = async (userQuery) => {
     return response;
   } catch (error) {
     console.log(`No Object Received from server ${error}`);
-    CONFIG.popToastError(error);
+    popToastError(error);
   }
 };
 
@@ -56,10 +65,14 @@ const createList = async (data) => {
     listContainer.classList.add("listContainer");
     CONFIG.listDisplay.appendChild(listContainer);
     for (element in data) {
-      let itemContainer = document.createElement("span");
+      let listItemContainer = document.createElement('div');
+      let itemContainerLeft = document.createElement("span");
+      let itemContainerRight = document.createElement("span");
+      listItemContainer.classList.add("listItemContainer");
+      itemContainerLeft.classList.add("itemContainer");
+      itemContainerRight.classList.add("itemContainer");
       let queryResult = data[element];
       let companyInfo = await receiveFurtherData(queryResult.symbol);
-      itemContainer.classList.add("itemContainer");
       let listImage = document.createElement("img");
       if (companyInfo === undefined) {
         listImage.setAttribute("src", "../resources/noLogo.png");
@@ -80,12 +93,15 @@ const createList = async (data) => {
       stockIndicator.style.marginLeft = "3vh";
       stockIndicator.innerText = `(${companyInfo.changesPercentage}%)`;
       setPriceIndicator(stockIndicator, companyInfo.changesPercentage);
-      ItemContainerAppend(listImage, listItem, stockIndicator, itemContainer);
-      listContainer.appendChild(itemContainer);
+      itemContainerRight.appendChild(stockIndicator);
+      ItemContainerAppend(listImage, listItem,itemContainerLeft);
+      listItemContainer.appendChild(itemContainerLeft);
+      listItemContainer.appendChild(itemContainerRight);
+      listContainer.appendChild(listItemContainer);
     }
     listContainer.style.display = "flex";
   } catch (error) {
-    CONFIG.popToastError(
+    popToastError(
       "Error has Occurred in Data retrieval please reload and try different inquiry"
     );
     console.log(`Error in data packet from server please check:${error}`);
@@ -105,10 +121,11 @@ const receiveFurtherData = async (CompanyKey) => {
 
 const autoSearch = (e) => {
   clearTimeout(timer);
-  autoSearchDisplay.innerText = "";
   autoSearchDisplay.style.visibility = "hidden";
+  autoSearchDisplay.innerText = "";
   if (e.target.value.length > 0) {
     timer = setTimeout(async () => {
+      appendQueryStringToUrl(e.target.value);
       try {
         let result = await getNasdaqStats(e.target.value);
         if (result === undefined || result.length === 0) {
@@ -116,23 +133,27 @@ const autoSearch = (e) => {
           autoSearchDisplay.classList.add("autoSearchQuery");
           return (autoSearchDisplay.style.visibility = "visible");
         }
-        result.forEach((element) => {
-          listItem = document.createElement("li");
-          listItem.innerText = `${element.name}`;
-          autoSearchDisplay.appendChild(listItem);
-          listItem.addEventListener("click", () => {
-            CONFIG.userInquiry = element.name;
-            autoSearchOn = true;
-            displayResults();
+        if(!autoSearchOn){
+          result.forEach((element) => {
+            listItem = document.createElement("li");
+            listItem.innerText = `${element.name}`;
+            autoSearchDisplay.appendChild(listItem);
+            listItem.addEventListener("click", () => {
+              CONFIG.userInquiry = element.name;
+              autoSearchOn = true;
+              displayResults();
+            });
           });
-        });
-        autoSearchDisplay.style.visibility = "visible";
-        autoSearchDisplay.classList.add("autoSearchQuery");
+          autoSearchDisplay.style.visibility = "visible";
+          autoSearchDisplay.classList.add("autoSearchQuery");
+          autoSearchOn=true;
+        }
+        autoSearchOn=false;
       } catch (error) {
         console.log(
           `Error in data retrieval from server please check:${error}`
         );
-        CONFIG.popToastError("AutoSearch unavailable please try again later");
+        popToastError("AutoSearch unavailable please try again later");
       }
     }, 300);
   }
@@ -143,5 +164,5 @@ button.addEventListener("click", () => {
   autoSearchOn = false;
   displayResults();
 });
-// button.addEventListener("keypress", enableEnterKey);
 CONFIG.userInquiry.addEventListener("keyup", autoSearch);
+// button.addEventListener("keypress", enableEnterKey);

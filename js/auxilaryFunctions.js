@@ -81,3 +81,18 @@ const ItemContainerAppend = (...arg) => {
     parentElement.appendChild(item);
   });
 };
+
+const popToastError = (text)=>{
+  let errorToast = document.getElementsByClassName("errorToast")[0];
+  errorToast.classList.add("show");
+  errorToast.innerText = text;
+  setTimeout(() => {
+    errorToast.className = errorToast.className.replace("show", "");
+  }, 5000);
+};
+
+const appendQueryStringToUrl = (targetString) => {
+  const url = new URL(window.location);
+  url.searchParams.set("query", `${targetString}`);
+  history.pushState({}, "", url);
+};

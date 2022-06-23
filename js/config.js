@@ -2,8 +2,8 @@
 let button = document.querySelector("button");
 let autoSearchDisplay = document.getElementsByClassName("autoSearchQuery")[0];
 let timer = 0;
-let isError=false;
-let autoSearchOn =false;
+let isError = false;
+let autoSearchOn = false;
 
 const CONFIG = {
   userInquiry: document.getElementsByClassName("userSearchField")[0],
@@ -13,6 +13,7 @@ const CONFIG = {
   urlQueryString: "",
   companySymbol: "",
   //status variables
+  autoSearchListOn:false,
   loadingState: false,
   displayPageState: false,
   errorState: false,
@@ -22,13 +23,4 @@ const CONFIG = {
     "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile",
   stockHistoryUrl:
     "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/",
-  //helper Functions
-    popToastError (text) {
-      let errorToast = document.getElementsByClassName("errorToast")[0];
-      errorToast.classList.add("show");
-      errorToast.innerText = text;
-      setTimeout(() => {
-        errorToast.className = errorToast.className.replace("show", "");
-      }, 5000);
-    },
-  };
+};

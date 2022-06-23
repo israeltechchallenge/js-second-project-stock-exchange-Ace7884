@@ -1,7 +1,7 @@
-let dateLogs =[];
-let closingPriceLogs=[];
+let dateLogs = [];
+let closingPriceLogs = [];
 
-window.onload = async function startPage() {  
+window.onload = async function startPage() {
   try {
     const marquee = new Marquee(CONFIG.marqueeContainer);
     await marquee.load();
@@ -9,7 +9,7 @@ window.onload = async function startPage() {
     CONFIG.companySymbol = CONFIG.urlQueryString.get("symbol");
     displayProfile(CONFIG.companySymbol);
   } catch (error) {
-    CONFIG.popToastError(
+    popToastError(
       "Error has Occurred in Data retrieval please reload and try different inquiry"
     );
     console.log(`Error in page rendering please check:${error}`);
@@ -17,16 +17,20 @@ window.onload = async function startPage() {
 };
 
 const displayProfile = async (data) => {
-  let profileData = await receiveCompanyData(data); 
+  let profileData = await receiveCompanyData(data);
   toggleLoader();
   toggleList();
-  insertProfileHeader(profileData.image, profileData.companyName, profileData.industry);
+  insertProfileHeader(
+    profileData.image,
+    profileData.companyName,
+    profileData.industry
+  );
   insertStockPrices(profileData.price, profileData.changesPercentage);
   insertDescription(profileData.description);
   insertUrl(profileData.website);
   await getStockHistory();
   appendChart();
-  await initiateChart(dateLogs,closingPriceLogs);
+  await initiateChart(dateLogs, closingPriceLogs);
   toggleLoader();
 };
 
@@ -40,8 +44,6 @@ const receiveCompanyData = async (company) => {
     console.log(`Error in data reception from server please check:${error}`);
   }
 };
-
-
 
 const insertProfileHeader = (imageUrl, name, industry) => {
   let profileHeader = document.createElement("div");
@@ -98,29 +100,29 @@ const insertUrl = (url) => {
 
 const getStockHistory = async () => {
   const url = `${CONFIG.stockHistoryUrl}/${CONFIG.companySymbol}?serietype=line`;
-  
+
   try {
     let response = await fetch(url);
     response = await response.json();
     let data = response.historical;
     for (let key in data) {
-       if( key === "18") {
+      if (key === "18") {
         break;
       }
       dateLogs.push(data[key].date);
       closingPriceLogs.push(data[key].close);
     }
-     return;
+    return;
   } catch (error) {
     console.log(error);
-    CONFIG.popToastError(error);
+    popToastError(error);
   }
 };
 
 const appendChart = () => {
   let chartContainer = document.createElement("div");
   let chart = document.createElement("canvas");
-  chartContainer.style.marginTop='1vh';
+  chartContainer.style.marginTop = "1vh";
   chart.setAttribute("id", "myChart");
   chartContainer.appendChild(chart);
   CONFIG.listDisplay.appendChild(chartContainer);
