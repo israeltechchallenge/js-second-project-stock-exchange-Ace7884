@@ -45,19 +45,20 @@ li {
   flex-direction: column;
   align-items: center;
 }
-.searchField {
+
+#form {
   align-items: center;
   width: 100%;
   height: 8vh;
   padding: 1vh 26vw;
 }
 
-.searchField,
+#form,
 .header {
   box-shadow: rgb(115, 177, 202) 0px 8px 20px -8px;
 }
 
-.searchField,
+#form,
 .header {
   display: inline-flex;
   justify-content: space-around;
@@ -80,10 +81,10 @@ li {
 .searchButton,
 .userSearchField,
 .loader-container,
-.listDisplay,
+#results,
 .homeButton,
 .imageContainer,
-.listDisplay::-webkit-scrollbar-thumb,
+#results::-webkit-scrollbar-thumb,
 .description::-webkit-scrollbar-thumb,
 #myChart,
 .listImage,
@@ -131,20 +132,20 @@ li {
 }
 
 .loader-container,
-.listDisplay {
+#results {
+  visibility: hidden;
   display: flex;
   top: 3vh;
-  height: 70vh;
   width: 70vw;
+  height: 70vh;
   margin: 2vh 0px;
   padding: 3vh 4.5vw;
   background-color: rgba(28, 28, 92, 0.5);
 }
 
-.listDisplay {
-  position: relative;
+#results {
+  position: absolute;
   flex-direction: column;
-  justify-content: space-around;
 }
 
 .loader-container {
@@ -184,16 +185,17 @@ li {
   }
 }
 
-.listDisplay,
+#results,
 .stockMarquee_Container {
   box-shadow: rgb(42, 50, 53) 0px 8px 20px -8px;
 }
 
-.listDisplay,
+#results,
 .stockMarquee_Container {
   background-color: rgba(28, 28, 92, 0.5);
 }
 
+#results,
 .listItem,
 .profileHeader,
 .description,
@@ -208,6 +210,9 @@ li {
   align-items: center;
 }
 
+.profileHeader h3 {
+  font-size: large;
+}
 .imageContainer {
   background-color: transparent;
   width: 6vw;
@@ -220,25 +225,24 @@ li {
   width: fit-content;
 }
 
-.listDisplay,
 .description {
   overflow: scroll;
   overflow-x: hidden;
 }
 
-.listDisplay::-webkit-scrollbar,
+
 .description::-webkit-scrollbar {
   width: 1vw;
 }
 
 h2,
 .header,
-.searchField,
-.listDisplay::-webkit-scrollbar-thumb,
+#form,
+#results::-webkit-scrollbar-thumb,
 .description::-webkit-scrollbar-thumb {
   background-color: rgb(150, 207, 230, 0.5);
 }
-.listDisplay::-webkit-scrollbar-track-piece,
+#results::-webkit-scrollbar-track-piece,
 .description::-webkit-scrollbar-track-piece {
   background: transparent;
 }
@@ -261,7 +265,6 @@ h2,
 
 .listItemContainer {
   display: flex;
-  text-align: center;
   justify-content: space-between;
   border-bottom: rgb(255, 247, 0) 1px solid;
 }
@@ -368,32 +371,32 @@ h2,
 }
 
 @media (max-width: 1262px) {
-  .searchField {
+  #form {
     padding: 1vh 25vw;
   }
 }
 @media (max-width: 877px) {
-  .searchField {
+  #form {
     padding: 1vh 24vw;
   }
 }
 @media (max-width: 705px) {
-  .searchField {
+  #form {
     padding: 1vh 23vw;
   }
 }
 @media (max-width: 592px) {
-  .searchField {
+  #form {
     padding: 1vh 22vw;
   }
 }
 @media (max-width: 488px) {
-  .searchField {
+  #form {
     padding: 1vh 20vw;
   }
 }
 @media (max-width: 416px) {
-  .searchField {
+  #form {
     padding: 1vh 19vw;
   }
 }

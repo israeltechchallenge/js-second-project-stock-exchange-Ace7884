@@ -1,6 +1,7 @@
 class Marquee {
   constructor(element) {
     this.element = element;
+    this.errorState = false;
     this.url =
       "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nasdaq";
   }
@@ -12,7 +13,7 @@ class Marquee {
       marqueeText.classList.add("marqueeDisplay");
       let marqueeData = await this.getMarqueeStockData();
       for (let key in marqueeData) {
-        if (CONFIG.errorState === true && key === "100") {
+        if (this.errorState === true && key === "100") {
           break;
         } else {
           this.appendMarquee(marqueeData[key], marqueeText);
@@ -20,9 +21,12 @@ class Marquee {
       }
       this.element.appendChild(marqueeText);
     } catch (error) {
-      CONFIG.errorState = true;
+      this.errorState = true;
+      popToastError(
+        "Error occurred while loading stock updates please refresh or try again later"
+      );
       console.log(`Error in data rendering from server please check:${error}`);
-      this.createMarquee();
+      this.load();
     }
   };
 

@@ -1,6 +1,3 @@
-let dateLogs = [];
-let closingPriceLogs = [];
-
 window.onload = async function startPage() {
   try {
     const marquee = new Marquee(CONFIG.marqueeContainer);
@@ -30,7 +27,7 @@ const displayProfile = async (data) => {
   insertUrl(profileData.website);
   await getStockHistory();
   appendChart();
-  await initiateChart(dateLogs, closingPriceLogs);
+  initiateChart();
   toggleLoader();
 };
 
@@ -56,7 +53,7 @@ const insertProfileHeader = (imageUrl, name, industry) => {
   let companyName = document.createElement("h3");
   companyName.style.marginLeft = "3vh";
   companyName.innerText = `${name}`;
-  let companyIndustry = document.createElement("h3");
+  let companyIndustry = document.createElement("h4");
   companyIndustry.style.marginLeft = "3vh";
   companyIndustry.innerText = `(${industry})`;
   ItemContainerAppend(
@@ -65,26 +62,26 @@ const insertProfileHeader = (imageUrl, name, industry) => {
     companyIndustry,
     profileHeader
   );
-  CONFIG.listDisplay.appendChild(profileHeader);
+  CONFIG.results.appendChild(profileHeader);
 };
 
 const insertStockPrices = (price, stockChange) => {
   let stockInformation = document.createElement("div");
   stockInformation.classList.add("profileHeader");
-  let stockPrice = document.createElement("h3");
+  let stockPrice = document.createElement("p");
   stockPrice.innerText = `Stock price:${price} usd`;
-  let stockIndicator = document.createElement("h3");
+  let stockIndicator = document.createElement("p");
   stockIndicator.style.marginLeft = "3vh";
   setPriceIndicator(stockIndicator, stockChange);
   ItemContainerAppend(stockPrice, stockIndicator, stockInformation);
-  CONFIG.listDisplay.appendChild(stockInformation);
+  CONFIG.results.appendChild(stockInformation);
 };
 
 const insertDescription = (description) => {
   let companyDescription = document.createElement("div");
   companyDescription.classList.add("description");
   companyDescription.innerText = `${description}`;
-  CONFIG.listDisplay.appendChild(companyDescription);
+  CONFIG.results.appendChild(companyDescription);
 };
 
 const insertUrl = (url) => {
@@ -95,7 +92,7 @@ const insertUrl = (url) => {
   companyUrlLink.setAttribute("href", `${url}`);
   companyUrlLink.setAttribute("target", "_blank");
   companyUrlLink.innerText = `${url}`;
-  CONFIG.listDisplay.appendChild(companyUrlLink);
+  CONFIG.results.appendChild(companyUrlLink);
 };
 
 const getStockHistory = async () => {
@@ -109,8 +106,8 @@ const getStockHistory = async () => {
       if (key === "18") {
         break;
       }
-      dateLogs.push(data[key].date);
-      closingPriceLogs.push(data[key].close);
+      CONFIG.dateLogs.push(data[key].date);
+      CONFIG.closingPriceLogs.push(data[key].close);
     }
     return;
   } catch (error) {
@@ -123,15 +120,16 @@ const appendChart = () => {
   let chartContainer = document.createElement("div");
   let chart = document.createElement("canvas");
   chartContainer.style.marginTop = "1vh";
+  chartContainer.style.height = "50%";
   chart.setAttribute("id", "myChart");
   chartContainer.appendChild(chart);
-  CONFIG.listDisplay.appendChild(chartContainer);
+  CONFIG.results.appendChild(chartContainer);
 };
 
-const initiateChart = (dates, dailyPriceLogs) => {
+const initiateChart = () => {
   const ctx = document.getElementById("myChart");
   const Data = {
-    labels: dates,
+    labels: CONFIG.dateLogs,
     datasets: [
       {
         label: "Stock Price History",
@@ -139,7 +137,7 @@ const initiateChart = (dates, dailyPriceLogs) => {
         backgroundColor: "rgb(150, 207, 230, 0.5)",
         borderColor: "rgb(150, 207, 230, 0.5)",
         fill: "origin",
-        data: dailyPriceLogs,
+        data: CONFIG.closingPriceLogs,
       },
     ],
   };

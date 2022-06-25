@@ -1,23 +1,19 @@
-//global variables
-let button = document.querySelector("button");
-let autoSearchDisplay = document.getElementsByClassName("autoSearchQuery")[0];
-let timer = 0;
-let isError = false;
-let autoSearchOn = false;
-
 const CONFIG = {
+  //global variables
   userInquiry: document.getElementsByClassName("userSearchField")[0],
   mainContainer: document.getElementsByClassName("main_Container")[0],
-  listDisplay: document.createElement("div"),
+  results: document.getElementById("results"),
   marqueeContainer: document.getElementById("marquee"),
-  urlQueryString: "",
   companySymbol: "",
+  // companySymbolList:[],
+  dateLogs: [],
+  closingPriceLogs: [],
   //status variables
-  autoSearchListOn:false,
   loadingState: false,
   displayPageState: false,
-  errorState: false,
-  //url adresses
+  isError: false,
+  autoSearchOn: false,
+  //url addresses
   searchRequestUrl: `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3`,
   profileDataUrl:
     "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile",
