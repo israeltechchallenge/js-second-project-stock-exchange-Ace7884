@@ -13,8 +13,6 @@ body,
 }
 
 body {
-  display: flex;
-  flex-direction: column;
   background-image: url("../resources/sean-pollock-PhYq704ffdA-unsplash.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -89,7 +87,8 @@ li {
 #myChart,
 .listImage,
 .errorToast,
-.autoSearchQuery {
+.autoSearchQuery,
+.charWrapper {
   border: none;
   border-radius: 5px;
 }
@@ -144,13 +143,17 @@ li {
 }
 
 #results {
+  visibility: hidden;
   position: absolute;
   flex-direction: column;
 }
 
+.charWrapper{
+  color:white;
+  background-color:rgb(98, 0, 255) ;
+}
 .loader-container {
   left: 3.5px;
-  visibility: hidden;
   position: absolute;
   justify-content: center;
 }

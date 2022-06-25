@@ -107,54 +107,53 @@ const popToastError = (text) => {
   }, 5000);
 };
 
-//Milestone3.1 in progress work below
-//check in console for promise.all item limit number
-const checkCompanyDataApiLimit = async (a) => {
-  let companySymbolList = [];
-  let count = 0;
-  let data = await mockGetNasdaqStats(a);
-  for (let key in data) {
-    // Scale up or down requests to api
-    // 30 is minimal limit
-    if (key === "30") {
-      break;
-    }
-    count++;
-    companySymbolList.push(data[key].symbol);
-  }
-  console.log(companySymbolList);
-  let dataProf = await mockReceiveCompanyData(companySymbolList);
-  console.log(dataProf);
-  return;
-};
+// //Milestone3.1 work in progress  below
+// //check in console for promise.all item limit number
+// const checkCompanyDataApiLimit = async (a) => {
+//   let companySymbolList = [];
+//   let count = 0;
+//   let data = await mockGetNasdaqStats(a);
+//   for (let key in data) {
+//     // Scale up or down requests to api
+//     // 30 is minimal limit
+//     if (key === "30") {
+//       break;
+//     }
+//     count++;
+//     companySymbolList.push(data[key].symbol);
+//   }
+//   let dataProf = await mockReceiveCompanyData(companySymbolList);
+//   console.log(dataProf);
+//   return;
+// };
 
-//mock geNasdaqFunc for api limit test
-const mockGetNasdaqStats = async (userQuery) => {
-  if (userQuery === "") {
-    throw "Invalid Stock Query Try Again";
-  }
-  //change url delete limit to recieve full list;
-  const url = `${CONFIG.searchRequestUrl}/search?query=${userQuery}&exchange=NASDAQ`;
-  try {
-    let response = await fetch(url);
-    response = await response.json();
-    console.log(response);
-    return response;
-  } catch (error) {
-    console.log(`No Object Received from server ${error}`);
-  }
-};
+// //mock geNasdaqFunc for api limit test
+// const mockGetNasdaqStats = async (userQuery) => {
+//   if (userQuery === "") {
+//     throw "Invalid Stock Query Try Again";
+//   }
+//   //change url delete limit to recieve full list;
+//   const url = `${CONFIG.searchRequestUrl}/search?query=${userQuery}&exchange=NASDAQ`;
+//   try {
+//     let response = await fetch(url);
+//     response = await response.json();
+//     console.log(response);
+//     return response;
+//   } catch (error) {
+//     console.log(`No Object Received from server ${error}`);
+//   }
+// };
 
-// mock  receiveCompanyData profile endpoint to be checked
-const mockReceiveCompanyData = async (company) => {
-  const url = `${CONFIG.profileDataUrl}/${company}`;
-  console.log(url);
-  let response = await fetch(url);
-  try {
-    response = await response.json();
-    console.log("recieved2");
-    return response;
-  } catch (error) {
-    console.log(`Error in data reception from server please check:${error}`);
-  }
-};
+// // mock  receiveCompanyData profile endpoint to be checked
+// const mockReceiveCompanyData = async (company) => {
+//   const url = `${CONFIG.profileDataUrl}/${company}`;
+//   console.log(url);
+//   let response = await fetch(url);
+//   try {
+//     response = await response.json();
+//     console.log("recieved2");
+//     return response;
+//   } catch (error) {
+//     console.log(`Error in data reception from server please check:${error}`);
+//   }
+// };

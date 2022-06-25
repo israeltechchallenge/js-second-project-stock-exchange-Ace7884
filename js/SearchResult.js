@@ -1,11 +1,12 @@
 class SearchResult {
-  constructor(element) {
-    this.element = element;
+  constructor() {
+    
   }
 
   displayResults = async () => {
-    this.element.style.visibility = "hidden";
-    this.isError = false;
+    CONFIG.results.style.visibility = "hidden";
+    CONFIG.results.innerText='';
+    CONFIG.isError = false;
     toggleLoader();
     toggleList();
     if (!CONFIG.autoSearchOn) {
@@ -33,12 +34,9 @@ class SearchResult {
 
   receiveFurtherData = async (CompanyKey) => {
     const url = `${CONFIG.profileDataUrl}/${CompanyKey}`;
-    // console.log(url);
     try {
       let response = await fetch(url);
-      // console.log(response);
       response = await response.json();
-      // console.log(response);
       return response.profile;
     } catch (error) {
       console.log(`Error in data packet from server please check:${error}`);
@@ -47,11 +45,11 @@ class SearchResult {
 
   createList = async (data) => {
     try {
-      this.element = document.getElementById("results");
-      this.element.replaceChildren();
+      CONFIG.element = document.getElementById("results");
       let listContainer = document.createElement("div");
       listContainer.classList.add("listContainer");
-      this.element.appendChild(listContainer);
+      CONFIG.element.appendChild(listContainer);
+      // Milestone3.1 pending work
       // console.log(CONFIG.companySymbolList);
       // let companyInfo = await Promise.all(receiveFurtherData(CONFIG.companySymbolList));
       for (let key in data) {
@@ -78,13 +76,26 @@ class SearchResult {
           `./company.html?symbol=${queryResult.symbol}`
         );
         listItem.setAttribute("target", `_blank`);
-        listItem.innerText += `${queryResult.name}    (${queryResult.symbol})`;
+        let listItemText = `${queryResult.name}    (${queryResult.symbol})`;
+        listItemText = [...listItemText];
+        let userInputArray = [...CONFIG.userInquiry];
+        listContainer.style.display = "flex";
+        for (let i = 0; i < listItemText.length; i++) {
+          let charWrapper = document.createElement("span");
+          charWrapper.innerText = listItemText[i];
+          listItem.appendChild(charWrapper);
+          for (let j = 0; j < CONFIG.userInquiry.length; j++) {
+            if (listItemText[i] === userInputArray[j]) {
+              charWrapper.classList.add("charWrapper");
+            }
+          }
+        }
+        ItemContainerAppend(listImage, listItem, itemContainerLeft);
         let stockIndicator = document.createElement("p");
         stockIndicator.style.marginLeft = "3vh";
         stockIndicator.innerText = `(${companyInfo.changesPercentage}%)`;
         setPriceIndicator(stockIndicator, companyInfo.changesPercentage);
         itemContainerRight.appendChild(stockIndicator);
-        ItemContainerAppend(listImage, listItem, itemContainerLeft);
         listItemContainer.appendChild(itemContainerLeft);
         listItemContainer.appendChild(itemContainerRight);
         listContainer.appendChild(listItemContainer);

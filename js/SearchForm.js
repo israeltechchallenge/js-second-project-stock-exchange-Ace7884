@@ -72,6 +72,7 @@ class SearchForm {
     this.button.addEventListener("click", () => {
       this.autoSearchDisplay.style.visibility = "hidden";
       CONFIG.autoSearchOn = false;
+      CONFIG.results.innerText='';
       this.instance.displayResults();
     });
     document.body.addEventListener("keypress", this.enableEnterKey);
@@ -95,6 +96,7 @@ class SearchForm {
     urlQueryString = urlQueryString.toString();
     if (urlQueryString.length > 0) {
       CONFIG.userInquiry.value = urlQueryString.slice(6, urlQueryString.length);
+      CONFIG.results.innerText='';
       this.instance.displayResults();
     }
   };
