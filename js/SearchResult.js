@@ -33,7 +33,7 @@ class SearchResult {
   };
 
   receiveFurtherData = async (CompanyKey) => {
-    const url = `${CONFIG.profileDataUrl}/${CompanyKey}`;
+    const url = `${CONFIG.baseUrl}/api/v3/company/profile/${CompanyKey}`;
     try {
       let response = await fetch(url);
       response = await response.json();

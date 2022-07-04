@@ -1,17 +1,38 @@
 class Marquee {
   constructor(element) {
     this.element = element;
+    this.loading = false;
     this.errorState = false;
     this.url =
       "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/quotes/nasdaq";
   }
+
+  preLoader = () =>{
+    if(!this.loading){
+      this.element.innerHTML =
+  `<div class='loading'>
+  <h3>Loading Stock Information</h3>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    </div>
+  `;
+  return this.loading=true;
+    }
+   this.element.innerHTML ='';
+}
+
   load = async () => {
-    try {
-      this.element.innerHTML = "";
-      this.element.classList.add("stockMarquee_Container");
+    try{
+    this.preLoader(); 
+      let marqueeData = await this.getMarqueeStockData();
+      this.preLoader();
       let marqueeText = document.createElement("span");
       marqueeText.classList.add("marqueeDisplay");
-      let marqueeData = await this.getMarqueeStockData();
       for (let key in marqueeData) {
         if (this.errorState === true && key === "100") {
           break;
@@ -19,6 +40,7 @@ class Marquee {
           this.appendMarquee(marqueeData[key], marqueeText);
         }
       }
+      
       this.element.appendChild(marqueeText);
     } catch (error) {
       this.errorState = true;

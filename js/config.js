@@ -14,9 +14,5 @@ const CONFIG = {
   isError: false,
   autoSearchOn: false,
   //url addresses
-  searchRequestUrl: `https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3`,
-  profileDataUrl:
-    "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/company/profile",
-  stockHistoryUrl:
-    "https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com/api/v3/historical-price-full/",
+  baseUrl:`https://stock-exchange-dot-full-stack-course-services.ew.r.appspot.com`,
 };

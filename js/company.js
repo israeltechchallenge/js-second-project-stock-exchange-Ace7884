@@ -32,7 +32,7 @@ const displayProfile = async (data) => {
 };
 
 const receiveCompanyData = async (company) => {
-  const url = `${CONFIG.profileDataUrl}/${company}`;
+  const url = `${CONFIG.baseUrl}/api/v3/company/profile/${company}`;
   let response = await fetch(url);
   try {
     response = await response.json();
@@ -96,7 +96,7 @@ const insertUrl = (url) => {
 };
 
 const getStockHistory = async () => {
-  const url = `${CONFIG.stockHistoryUrl}/${CONFIG.companySymbol}?serietype=line`;
+  const url = `${CONFIG.baseUrl}/api/v3/historical-price-full/${CONFIG.companySymbol}?serietype=line`;
 
   try {
     let response = await fetch(url);

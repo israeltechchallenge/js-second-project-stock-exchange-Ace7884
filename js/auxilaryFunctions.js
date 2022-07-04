@@ -5,7 +5,7 @@ const getNasdaqStats = async (userQuery) => {
   if (userQuery === "") {
     throw "Invalid Stock Query Try Again";
   }
-  const url = `${CONFIG.searchRequestUrl}/search?query=${userQuery}&limit=10&exchange=NASDAQ`;
+  const url = `${CONFIG.baseUrl}/api/v3/search?query=${userQuery}&limit=10&exchange=NASDAQ`;
   try {
     let response = await fetch(url);
     response = await response.json();
