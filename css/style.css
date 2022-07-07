@@ -85,8 +85,7 @@ li {
 #myChart,
 .listImage,
 .errorToast,
-.autoSearchQuery,
-.charWrapper {
+.autoSearchQuery{ 
   border: none;
   border-radius: 5px;
 }
@@ -148,7 +147,8 @@ li {
 
 .charWrapper{
   color:white;
-  background-color:rgb(98, 0, 255) ;
+  border-radius: 1.5px;
+  background-color:rgba(2, 255, 213, 0.639) ;
 }
 .loader-container {
   left: 3.5px;
